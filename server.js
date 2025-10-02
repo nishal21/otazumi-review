@@ -9,7 +9,7 @@ import { eq, and, desc, sql } from 'drizzle-orm';
 dotenv.config();
 
 // Database schema
-const { users, animeReviews, reviewVotes } = await import('../src/db/schema.js');
+const { users, animeReviews, reviewVotes } = await import('./db/schema.js');
 
 // Database connection
 const connectionString = process.env.DATABASE_URL || process.env.VITE_DATABASE_URL;
