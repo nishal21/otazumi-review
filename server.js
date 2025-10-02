@@ -407,7 +407,33 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Review API is running' });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Review API server running on http://localhost:${PORT}`);
-  console.log(`📊 Database: ${connectionString ? 'Connected' : 'Not configured'}`);
+// Root endpoint for Vercel
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Otazumi Review API', 
+    endpoints: [
+      'POST /api/reviews - Submit a review',
+      'GET /api/reviews/anime/:animeId - Get reviews for an anime',
+      'GET /api/reviews/anime/:animeId/mine - Get my review',
+      'PUT /api/reviews/:reviewId - Update a review',
+      'DELETE /api/reviews/:reviewId - Delete a review',
+      'POST /api/reviews/:reviewId/vote - Vote on a review',
+      'POST /api/reviews/:reviewId/report - Report a review',
+      'GET /api/reviews/anime/:animeId/stats - Get rating statistics',
+      'GET /api/reviews/user/:userId - Get user reviews',
+      'GET /api/health - Health check'
+    ]
+  });
 });
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Review API server running on http://localhost:${PORT}`);
+    console.log(`📊 Database: ${connectionString ? 'Connected' : 'Not configured'}`);
+  });
+}
+
+// Export for Vercel serverless
+export default app;
